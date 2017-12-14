@@ -154,12 +154,12 @@ namespace LogWriter
 
                 // Crete filestream
                 FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write);
-                StreamWriter writer = new StreamWriter(stream);
-
-                // Log to file
-                writer.WriteLine(String.Format(@"{0}\t{1}", entry.GetTime(), entry.GetMessage()));
-                stream.Close();
-
+                using (var writer = new StreamWriter(stream))
+                {
+                    // Log to file
+                    writer.WriteLine(String.Format(@"{0}\t{1}", entry.GetTime(), entry.GetMessage()));
+                    stream.Close();
+                }
             }
         }
 
